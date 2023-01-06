@@ -1,15 +1,16 @@
-import { Component, onMount } from "solid-js";
+import { Component, onMount, Setter } from "solid-js";
 
-const multiplier = 3;
+const multiplier = 2;
 const size = 28 * multiplier;
 export const Canvas: Component<{
-	setContext: any;
-}> = (_props) => {
+	setCanvas: Setter<HTMLCanvasElement | null>;
+}> = (props) => {
 	let canvas: HTMLCanvasElement | undefined = undefined;
 	let ctx: CanvasRenderingContext2D | null | undefined = undefined;
 	let [canvasWidth, canvasHeight] = [0, 0];
 	onMount(() => {
 		if (canvas) {
+			props.setCanvas(canvas);
 			const computed = getComputedStyle(canvas);
 			canvasWidth = parseInt(computed.width);
 			canvasHeight = parseInt(computed.height);
