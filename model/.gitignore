@@ -1,1 +1,3 @@
 conda-env
+.ipynb_checkpoints
+.virtual_documents
