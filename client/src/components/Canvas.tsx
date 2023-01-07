@@ -1,7 +1,6 @@
 import { Component, onMount, Setter } from "solid-js";
 
-const multiplier = 2;
-const size = 28 * multiplier;
+export const CANVAS_SIZE = 28;
 export const Canvas: Component<{
 	setCanvas: Setter<HTMLCanvasElement | null>;
 }> = (props) => {
@@ -21,18 +20,16 @@ export const Canvas: Component<{
 	const handleMove = (e: MouseEvent) => {
 		if (!pointerDown) return;
 		if (!canvas) return;
-		const x = Math.floor((e.offsetX / canvasWidth) * size);
-		const y = Math.floor((e.offsetY / canvasHeight) * size);
+		const x = Math.floor((e.offsetX / canvasWidth) * CANVAS_SIZE);
+		const y = Math.floor((e.offsetY / canvasHeight) * CANVAS_SIZE);
 		if (!ctx) return;
 		ctx.fillStyle = "#000000";
-		ctx.fillRect(x, y, multiplier, multiplier);
-		ctx.fillStyle = "#00000080";
+		ctx.fillRect(x, y, 1, 1);
 		[1, -1].forEach((m) => {
-			ctx!.fillRect(x + m, y, multiplier, multiplier);
-			ctx!.fillRect(x, y + m, multiplier, multiplier);
-
-			ctx!.fillRect(x + m, y + m, multiplier / 2, multiplier / 2);
-			ctx!.fillRect(x + m, y + m, multiplier / 2, multiplier / 2);
+			ctx!.fillRect(x + m, y, 0.9, 0.9);
+			ctx!.fillRect(x, y + m, 0.9, 0.9);
+			ctx!.fillRect(x + m, y + m, 0.9, 0.9);
+			ctx!.fillRect(x + m, y + m, 0.9, 0.9);
 		});
 	};
 	return (
@@ -41,8 +38,8 @@ export const Canvas: Component<{
 			onPointerDown={() => (pointerDown = true)}
 			onPointerUp={() => (pointerDown = false)}
 			onpointermove={handleMove}
-			width={size}
-			height={size}
+			width={CANVAS_SIZE}
+			height={CANVAS_SIZE}
 			ref={canvas}
 		></canvas>
 	);
