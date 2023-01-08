@@ -38,7 +38,8 @@ async function processCanvas(canvas: HTMLCanvasElement) {
 	if (!imageData) return [];
 	let arr: number[] = [];
 	for (let i = 3; i < imageData.data.length; i += 4) {
-		arr.push(imageData.data[i]);
+		if (imageData.data[i] < 255) arr.push(imageData.data[i]);
+		else arr.push(244);
 	}
 	const newArr: number[][] = [];
 	let index = 0;
