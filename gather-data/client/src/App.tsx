@@ -9,13 +9,13 @@ const App: Component = () => {
 		if (!canvasL) return;
 		const p = await processCanvas(canvasL);
 		setDisplay(JSON.stringify(p));
-		const r = await fetch("http://127.0.0.1:5000", {
+		const r = await fetch("http://127.0.0.1:5000/submit", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				digit: 5,
+				digit: (5).toString(),
 				array: JSON.stringify(p),
 			}),
 		});
