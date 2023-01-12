@@ -10,7 +10,7 @@ CORS(app)
 def hello_world():
     req = request.get_json()
     if (not req):
-        return "err"  # TODO make returns do stuff
+        return "err"
 
     f = open("data.json")
     data = json.load(f)
@@ -20,4 +20,4 @@ def hello_world():
     json_data = json.dumps(data)
     with open("data.json", "w") as f:
         f.write(json_data)
-    return "asd"
+    return "ok"

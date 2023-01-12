@@ -1,8 +1,10 @@
 import { Component, createSignal } from "solid-js";
 import { Canvas } from "./Canvas";
 
+const getDigit = () => Math.floor(Math.random() * 10);
 const App: Component = () => {
 	const [canvas, setCanvas] = createSignal<HTMLCanvasElement | null>(null);
+	const [digit, setDigit] = createSignal(getDigit());
 	const [display, setDisplay] = createSignal("");
 	const handleClick = async () => {
 		const canvasL = canvas();
@@ -15,17 +17,19 @@ const App: Component = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				digit: (5).toString(),
+				digit: digit().toString(),
 				array: JSON.stringify(p),
 			}),
 		});
-		console.log(r.ok);
+		if (r.ok) setDigit(getDigit());
+		clearCanvas(canvas());
 	};
 
 	return (
 		<div>
-			App
-			<button onClick={handleClick}>Click</button>
+			{digit()}
+			<button onClick={handleClick}>submit</button>
+			<button onClick={() => clearCanvas(canvas())}>Clear</button>
 			<Canvas setCanvas={setCanvas} />
 			<h4>{display()}</h4>
 		</div>
@@ -34,6 +38,12 @@ const App: Component = () => {
 
 export default App;
 
+function clearCanvas(canvas: HTMLCanvasElement | null) {
+	const ctx = canvas?.getContext("2d");
+	if (!ctx) return;
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
 async function processCanvas(canvas: HTMLCanvasElement) {
 	const bitMap = await createImageBitmap(canvas, {
 		resizeHeight: 28,
