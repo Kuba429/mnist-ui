@@ -15,8 +15,7 @@ const App: Component = () => {
 
 	return (
 		<div>
-			App
-			<button onClick={handleClick}>Click</button>
+			<button onClick={handleClick}>Submit</button>
 			<Canvas setCanvas={setCanvas} />
 			<h4>{display()}</h4>
 		</div>
@@ -26,15 +25,10 @@ const App: Component = () => {
 export default App;
 
 async function processCanvas(canvas: HTMLCanvasElement) {
-	const bitMap = await createImageBitmap(canvas, {
-		resizeHeight: 28,
-		resizeWidth: 28,
-		resizeQuality: "pixelated",
-	});
-	const newCtx = document.createElement("canvas").getContext("2d");
-	if (!newCtx) return [];
-	newCtx.drawImage(bitMap, 0, 0);
-	const imageData = newCtx.getImageData(0, 0, 28, 28);
+	const ctx = canvas.getContext("2d");
+	if (!ctx) return [];
+
+	const imageData = ctx.getImageData(0, 0, 28, 28);
 	if (!imageData) return [];
 	let arr: number[] = [];
 	for (let i = 3; i < imageData.data.length; i += 4) {
@@ -51,3 +45,16 @@ async function processCanvas(canvas: HTMLCanvasElement) {
 	}
 	return newArr;
 }
+
+//async function resize(canvas: HTMLCanvasElement) {
+//	const bitMap = await createImageBitmap(canvas, {
+//		resizeHeight: 28,
+//		resizeWidth: 28,
+//		resizeQuality: "pixelated",
+//	});
+//	const newCanvas = document.createElement("canvas").getContext("2d");
+//	const newCtx = newCanvas;
+//	if (!newCtx) return [];
+//	newCtx.drawImage(bitMap, 0, 0);
+//	return newCanvas;
+//}
