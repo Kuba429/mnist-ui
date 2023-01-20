@@ -8,7 +8,7 @@ const App: Component = () => {
 	const handleClick = async () => {
 		const canvasL = canvas();
 		if (!canvasL) return;
-		const p = await processCanvas(canvasL);
+		const p = await canvasToArray(canvasL);
 		setDisplay(JSON.stringify(p));
 		console.log(await predict(p));
 	};
@@ -24,7 +24,7 @@ const App: Component = () => {
 
 export default App;
 
-async function processCanvas(canvas: HTMLCanvasElement) {
+async function canvasToArray(canvas: HTMLCanvasElement) {
 	const ctx = canvas.getContext("2d");
 	if (!ctx) return [];
 
@@ -45,16 +45,3 @@ async function processCanvas(canvas: HTMLCanvasElement) {
 	}
 	return newArr;
 }
-
-//async function resize(canvas: HTMLCanvasElement) {
-//	const bitMap = await createImageBitmap(canvas, {
-//		resizeHeight: 28,
-//		resizeWidth: 28,
-//		resizeQuality: "pixelated",
-//	});
-//	const newCanvas = document.createElement("canvas").getContext("2d");
-//	const newCtx = newCanvas;
-//	if (!newCtx) return [];
-//	newCtx.drawImage(bitMap, 0, 0);
-//	return newCanvas;
-//}
