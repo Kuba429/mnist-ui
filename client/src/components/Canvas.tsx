@@ -2,24 +2,24 @@ import { Component, onMount, Setter } from "solid-js";
 
 export const CANVAS_SIZE = 28;
 export const Canvas: Component<{
-	setCanvas: Setter<HTMLCanvasElement | null>;
+	setCanvasRef: Setter<HTMLCanvasElement | null>;
 }> = (props) => {
-	let canvas: HTMLCanvasElement | undefined = undefined;
+	let canvasRef: HTMLCanvasElement | undefined = undefined;
 	let ctx: CanvasRenderingContext2D | null | undefined = undefined;
 	let [canvasWidth, canvasHeight] = [0, 0];
 	onMount(() => {
-		if (canvas) {
-			props.setCanvas(canvas);
-			const computed = getComputedStyle(canvas);
+		if (canvasRef) {
+			props.setCanvasRef(canvasRef);
+			const computed = getComputedStyle(canvasRef);
 			canvasWidth = parseInt(computed.width);
 			canvasHeight = parseInt(computed.height);
 		}
-		ctx = canvas?.getContext("2d");
+		ctx = canvasRef?.getContext("2d");
 	});
 	let pointerDown = false;
 	const handleMove = (e: MouseEvent) => {
 		if (!pointerDown) return;
-		if (!canvas) return;
+		if (!canvasRef) return;
 		const x = Math.floor((e.offsetX / canvasWidth) * CANVAS_SIZE);
 		const y = Math.floor((e.offsetY / canvasHeight) * CANVAS_SIZE);
 		if (!ctx) return;
@@ -40,7 +40,7 @@ export const Canvas: Component<{
 			onpointermove={handleMove}
 			width={CANVAS_SIZE}
 			height={CANVAS_SIZE}
-			ref={canvas}
+			ref={canvasRef}
 		></canvas>
 	);
 };
